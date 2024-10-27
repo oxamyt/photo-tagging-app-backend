@@ -19,9 +19,9 @@ model Leaderboard {
   time  Int    
 }
 
-model Game {
+model Character {
   id           Int     @id @default(autoincrement())
-  character    String  
+  name         String  @unique 
   x            Int    
   y            Int     
 }

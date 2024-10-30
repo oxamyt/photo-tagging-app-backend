@@ -1,13 +1,20 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const gameRouter = require("./routes/gameRouter");
 
 const port = 3000;
 
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+  })
+);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use("/", gameRouter);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

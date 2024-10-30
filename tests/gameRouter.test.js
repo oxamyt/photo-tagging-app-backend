@@ -16,7 +16,7 @@ const exactTestCases = [
 
 const approximateTestCases = [
   { character: "PATRICK", x: 1215, y: 1937 },
-  { character: "TOM", x: 1758, y: 3243 },
+  { character: "TOM", x: 1631, y: 3120 },
   { character: "TOMMY VERCETTI", x: 702, y: 3416 },
 ];
 

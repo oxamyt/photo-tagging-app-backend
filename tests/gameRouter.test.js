@@ -15,9 +15,9 @@ const exactTestCases = [
 ];
 
 const approximateTestCases = [
-  { character: "PATRICK", x: 1215, y: 1937 },
-  { character: "TOM", x: 1631, y: 3120 },
-  { character: "TOMMY VERCETTI", x: 702, y: 3416 },
+  { character: "PATRICK", x: 1295, y: 1857 },
+  { character: "TOM", x: 1691, y: 3264 },
+  { character: "TOMMY VERCETTI", x: 604, y: 3500 },
 ];
 
 exactTestCases.forEach(({ character, x, y }) => {
@@ -25,7 +25,7 @@ exactTestCases.forEach(({ character, x, y }) => {
     const response = await request(app).post("/game").send({ character, x, y });
 
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({ message: "Correct!", success: true });
+    expect(response.body).toMatchObject({ message: "Correct!", success: true });
   });
 });
 
@@ -34,6 +34,6 @@ approximateTestCases.forEach(({ character, x, y }) => {
     const response = await request(app).post("/game").send({ character, x, y });
 
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({ message: "Correct!", success: true });
+    expect(response.body).toMatchObject({ message: "Correct!", success: true });
   });
 });

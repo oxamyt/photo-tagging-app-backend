@@ -16,9 +16,16 @@ async function verifyCoordinates(req, res) {
       y >= Character.y - radius && y <= Character.y + radius;
 
     if (withinXBounds && withinYBounds) {
-      return res.json({ message: "Correct!", success: true });
+      return res.json({
+        message: "Correct!",
+        success: true,
+        correctCoordinates: { x: Character.x, y: Character.y },
+      });
     } else {
-      return res.json({ message: "Incorrect!", success: false });
+      return res.json({
+        message: "Incorrect!",
+        success: false,
+      });
     }
   } catch (err) {
     console.error("Error verifying coordinates:", err);

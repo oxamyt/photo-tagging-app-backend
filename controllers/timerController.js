@@ -4,10 +4,11 @@ const sessions = {};
 
 async function startTimer(req, res) {
   try {
-    const sessionId = req.body.sessionId || uuidv4();
+    const sessionId = req.cookies.sessionId || uuidv4();
     const startTime = Date.now();
     sessions[sessionId] = { startTime, endTime: 0, totalTime: 0 };
-    res.status(200).json({ sessionId });
+    res.cookie("sessionId", sessionId);
+    res.status(200).send();
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal Server Error" });
@@ -15,7 +16,7 @@ async function startTimer(req, res) {
 }
 
 async function endTimer(req, res) {
-  const { sessionId } = req.body;
+  const sessionId = req.cookies.sessionId;
 
   if (!sessionId) {
     return res.status(400).json({ message: "Session ID are required" });

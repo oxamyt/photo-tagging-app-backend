@@ -3,9 +3,11 @@ const cors = require("cors");
 const app = express();
 const gameRouter = require("./routes/gameRouter");
 const timerRouter = require("./routes/timerRouter");
+const cookieParser = require("cookie-parser");
 
 const port = 3000;
 
+app.use(cookieParser());
 app.use(
   cors({
     origin: "*",

@@ -13,4 +13,45 @@ async function fetchCharacter(characterName) {
   }
 }
 
-module.exports = { fetchCharacter };
+async function addUserSession(sessionId, startTime) {
+  try {
+    const User = await prisma.user.create({
+      data: {
+        sessionId: sessionId,
+        startTime: startTime,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function fetchUser(sessionId) {
+  try {
+    const User = await prisma.user.findFirst({
+      where: {
+        sessionId: sessionId,
+      },
+    });
+    return User;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function pushElapsedTime(sessionId, elapsedTime) {
+  try {
+    const User = await prisma.user.update({
+      where: {
+        sessionId: sessionId,
+      },
+      data: {
+        totalTime: elapsedTime,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+module.exports = { fetchCharacter, addUserSession, fetchUser, pushElapsedTime };

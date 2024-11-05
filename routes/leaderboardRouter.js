@@ -3,6 +3,6 @@ const leaderboardController = require("../controllers/leaderboardController");
 
 const leaderboardRouter = Router();
 
-leaderboardRouter.get("/leaderboard", leaderboardController.fetchLeaderboard);
+leaderboardRouter.get("/", leaderboardController.fetchLeaderboard);
 
 module.exports = leaderboardRouter;

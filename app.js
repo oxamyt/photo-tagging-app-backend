@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/", gameRouter);
-app.use("/timer/", timerRouter);
+app.use("/timer", timerRouter);
 app.use("/leaderboard", leaderboardRouter);
 
 app.listen(port, () => {

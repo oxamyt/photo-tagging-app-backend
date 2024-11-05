@@ -9,6 +9,6 @@ app.use(express.json());
 app.use("/", leaderboardRouter);
 
 test("fetch leaderboard", async () => {
-  const response = await request(app).get("/leaderboard");
+  const response = await request(app).get("/");
   expect(response.status).toBe(200);
 });

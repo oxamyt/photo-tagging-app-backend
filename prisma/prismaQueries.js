@@ -69,10 +69,20 @@ async function pushUserToLeaderBoard(name, totalTime) {
   }
 }
 
+async function fetchLeaderboard() {
+  try {
+    const Leaderboard = await prisma.leaderboard.findMany();
+    return Leaderboard;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 module.exports = {
   fetchCharacter,
   addUserSession,
   fetchUser,
   pushElapsedTime,
   pushUserToLeaderBoard,
+  fetchLeaderboard,
 };

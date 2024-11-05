@@ -3,6 +3,7 @@ const cors = require("cors");
 const app = express();
 const gameRouter = require("./routes/gameRouter");
 const timerRouter = require("./routes/timerRouter");
+const leaderboardRouter = require("./routes/leaderboardRouter");
 const cookieParser = require("cookie-parser");
 
 const port = 3000;
@@ -20,6 +21,7 @@ app.use(express.json());
 
 app.use("/", gameRouter);
 app.use("/timer/", timerRouter);
+app.use("/leaderboard", leaderboardRouter);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

@@ -54,4 +54,25 @@ async function pushElapsedTime(sessionId, elapsedTime) {
   }
 }
 
-module.exports = { fetchCharacter, addUserSession, fetchUser, pushElapsedTime };
+async function pushUserToLeaderBoard(name, totalTime) {
+  try {
+    const User = await prisma.leaderboard.create({
+      data: {
+        user: name,
+        time: totalTime,
+      },
+    });
+
+    return User;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+module.exports = {
+  fetchCharacter,
+  addUserSession,
+  fetchUser,
+  pushElapsedTime,
+  pushUserToLeaderBoard,
+};

@@ -23,3 +23,22 @@ test("end timer", async () => {
   expect(response.status).toBe(200);
   expect(response.body).toHaveProperty("elapsedTime");
 });
+
+test("record user time to leaderBoard", async () => {
+  const startResponse = await request(app).post("/timer/start");
+  const cookies = startResponse.headers["set-cookie"];
+
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+
+  const endTimerResponse = await request(app)
+    .post("/timer/end")
+    .set("Cookie", cookies);
+
+  const pushTimeToLeaderBoard = await request(app)
+    .post("/timer/record")
+    .set("Cookie", cookies)
+    .send({ name: "Gog" });
+  expect(pushTimeToLeaderBoard.status).toBe(200);
+  expect(pushTimeToLeaderBoard.body.totalTime).toEqual(3);
+  expect(pushTimeToLeaderBoard.body.name).toEqual("Gog");
+});

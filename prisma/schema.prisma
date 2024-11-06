@@ -27,9 +27,9 @@ model Character {
   y            Int     
 }
 
-model User {
-  id           Int @id @default(autoincrement())
-  sessionId    String @unique 
-  startTime    Decimal
-  totalTime    Decimal?
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt   DateTime
 }

@@ -1,17 +1,10 @@
-const { v4: uuidv4 } = require("uuid");
 const prismaQueries = require("../prisma/prismaQueries");
 
 async function startTimer(req, res) {
   try {
-    const sessionId = req.cookies.sessionId || uuidv4();
     const startTime = Date.now();
-    const addUserSession = await prismaQueries.addUserSession(
-      sessionId,
-      startTime
-    );
-    res.cookie("sessionId", sessionId);
-    res.status(200);
-    res.send();
+    req.session.startTime = startTime;
+    res.status(200).send();
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal Server Error" });
@@ -19,46 +12,34 @@ async function startTimer(req, res) {
 }
 
 async function endTimer(req, res) {
-  const sessionId = req.cookies.sessionId;
   try {
-    if (!sessionId) {
-      return res.status(400).json({ message: "Session ID is required" });
-    }
-
-    const User = await prismaQueries.fetchUser(sessionId);
-    if (!User) {
-      return res.status(400).json({ message: "Invalid Session ID" });
+    if (!req.session.startTime) {
+      return res.status(400).json({ message: "Timer has not been started" });
     }
 
     const endTime = Date.now();
 
-    const elapsedTime = Math.floor((endTime - User.startTime) / 1000);
+    const elapsedTime = Math.floor((endTime - req.session.startTime) / 1000);
 
-    await prismaQueries.pushElapsedTime(sessionId, elapsedTime);
-
+    req.session.totalTime = elapsedTime;
     res.status(200).json({ elapsedTime });
   } catch (err) {
     console.log(err);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }
 
 async function recordTime(req, res) {
   try {
-    const sessionId = req.cookies.sessionId;
     const { name } = req.body;
 
-    if (!sessionId) {
-      return res.stats(400).json({ message: "Session ID is required" });
-    }
-
-    const User = await prismaQueries.fetchUser(sessionId);
-    if (!User) {
-      return res.status(400).json({ message: "Invalid Session ID" });
+    if (!req.session.totalTime) {
+      return res.status(400).json({ message: "No total time!" });
     }
 
     const LeaderBoardUser = await prismaQueries.pushUserToLeaderBoard(
       name,
-      User.totalTime
+      req.session.totalTime
     );
 
     res.status(200).json({
@@ -67,6 +48,7 @@ async function recordTime(req, res) {
     });
   } catch (err) {
     console.error(err);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }
 

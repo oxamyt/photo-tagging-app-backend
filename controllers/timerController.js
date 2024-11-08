@@ -32,14 +32,13 @@ async function endTimer(req, res) {
 
 async function recordTime(req, res) {
   try {
-    const { name } = req.body;
+    const { username } = req.body;
 
     if (!req.session.totalTime) {
       return res.status(400).json({ message: "No total time!" });
     }
-
     const LeaderBoardUser = await prismaQueries.pushUserToLeaderBoard(
-      name,
+      username,
       req.session.totalTime
     );
 

@@ -4,7 +4,7 @@ async function startTimer(req, res) {
   try {
     const startTime = Date.now();
     req.session.startTime = startTime;
-    res.status(200).send();
+    res.status(200).send({ status: true });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal Server Error" });
@@ -22,6 +22,7 @@ async function endTimer(req, res) {
     const elapsedTime = Math.floor((endTime - req.session.startTime) / 1000);
 
     req.session.totalTime = elapsedTime;
+
     res.status(200).json({ elapsedTime });
   } catch (err) {
     console.log(err);

@@ -15,32 +15,30 @@ const port = 3000;
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
-
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 app.use(
   expressSession({
     cookie: {
       maxAge: 7 * 24 * 60 * 60 * 1000,
+      secure: false,
     },
     secret: process.env.SECRET,
-    resave: true,
+    resave: false,
     saveUninitialized: true,
     store: new PrismaSessionStore(new PrismaClient(), {
-      checkPeriod: 2 * 60 * 1000,
+      checkPeriod: 2 * 60 * 1000, //ms
       dbRecordIdIsSessionId: true,
       dbRecordIdFunction: undefined,
     }),
-    cookie: {
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    },
   })
 );
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use("/", gameRouter);
 app.use("/timer", timerRouter);

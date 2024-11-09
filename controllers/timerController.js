@@ -19,7 +19,7 @@ async function endTimer(req, res) {
 
     const endTime = Date.now();
 
-    const elapsedTime = Math.floor((endTime - req.session.startTime) / 1000);
+    const elapsedTime = (endTime - req.session.startTime) / 1000;
 
     req.session.totalTime = elapsedTime;
 

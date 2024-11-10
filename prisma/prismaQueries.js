@@ -9,7 +9,6 @@ async function fetchCharacter(characterName) {
     return Character;
   } catch (err) {
     console.error("Error fetching character:", err);
-    throw new Error("Could not create the post.");
   }
 }
 
@@ -82,6 +81,28 @@ async function fetchLeaderboard() {
   }
 }
 
+async function fetchImage() {
+  try {
+    const image = await prisma.image.findFirst();
+    return image;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function fetchCharacters(params) {
+  try {
+    const characters = await prisma.character.findMany({
+      select: {
+        name: true,
+      },
+    });
+    return characters;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 module.exports = {
   fetchCharacter,
   addUserSession,
@@ -89,4 +110,6 @@ module.exports = {
   pushElapsedTime,
   pushUserToLeaderBoard,
   fetchLeaderboard,
+  fetchImage,
+  fetchCharacters,
 };

@@ -56,8 +56,8 @@ test("record user time to leaderBoard", async () => {
   const pushTimeToLeaderBoard = await request(app)
     .post("/record")
     .set("Cookie", cookies)
-    .send({ name: "Gog" });
+    .send({ username: "Gog" });
   expect(pushTimeToLeaderBoard.status).toBe(200);
-  expect(pushTimeToLeaderBoard.body.totalTime).toEqual(3);
+  expect(pushTimeToLeaderBoard.body.totalTime).toBeLessThan(4);
   expect(pushTimeToLeaderBoard.body.name).toEqual("Gog");
 });

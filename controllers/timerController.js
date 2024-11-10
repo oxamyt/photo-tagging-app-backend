@@ -4,6 +4,7 @@ async function startTimer(req, res) {
   try {
     const startTime = Date.now();
     req.session.startTime = startTime;
+
     res.status(200).send({ status: true });
   } catch (err) {
     console.error(err);

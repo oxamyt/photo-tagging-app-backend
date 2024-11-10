@@ -24,7 +24,17 @@ model Character {
   id           Int     @id @default(autoincrement())
   name         String  @unique 
   x            Int    
-  y            Int     
+  y            Int   
+  imageId      Int  
+  image       Image     @relation("CharactersOfImage", fields: [imageId], references: [id])
+}
+
+
+model Image {
+  id           Int     @id @default(autoincrement())
+  name         String  @unique 
+  url          String   
+  characters   Character[]  @relation("CharactersOfImage")
 }
 
 model Session {

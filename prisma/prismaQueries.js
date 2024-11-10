@@ -71,7 +71,11 @@ async function pushUserToLeaderBoard(name, totalTime) {
 
 async function fetchLeaderboard() {
   try {
-    const Leaderboard = await prisma.leaderboard.findMany();
+    const Leaderboard = await prisma.leaderboard.findMany({
+      orderBy: {
+        time: "asc",
+      },
+    });
     return Leaderboard;
   } catch (err) {
     console.error(err);

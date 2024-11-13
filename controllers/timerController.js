@@ -4,7 +4,6 @@ async function startTimer(req, res) {
   try {
     const startTime = Date.now();
     req.session.startTime = startTime;
-
     res.status(200).send({ status: true });
   } catch (err) {
     console.error(err);
@@ -18,11 +17,23 @@ async function endTimer(req, res) {
       return res.status(400).json({ message: "Timer has not been started" });
     }
 
+    const { clientEndTime } = req.body;
+
     const endTime = Date.now();
 
-    const elapsedTime = (endTime - req.session.startTime) / 1000;
+    const elapsedServerTime = endTime - req.session.startTime;
 
-    req.session.totalTime = elapsedTime;
+    const timeDifference = Math.abs(elapsedServerTime - clientEndTime);
+
+    let elapsedTime;
+
+    if (timeDifference > 500) {
+      elapsedTime = elapsedServerTime / 1000;
+      req.session.totalTime = elapsedTime;
+    } else {
+      elapsedTime = clientEndTime / 1000;
+      req.session.totalTime = elapsedTime;
+    }
 
     res.status(200).json({ elapsedTime });
   } catch (err) {

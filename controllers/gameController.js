@@ -40,6 +40,7 @@ async function fetchGameData(req, res) {
   try {
     const image = await prismaQueries.fetchImage();
     const characters = await prismaQueries.fetchCharacters();
+
     res.status(200).json({
       image: image.url,
       characters: characters,

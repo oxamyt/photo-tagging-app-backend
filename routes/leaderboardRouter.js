@@ -5,4 +5,6 @@ const leaderboardRouter = Router();
 
 leaderboardRouter.get("/", leaderboardController.fetchLeaderboard);
 
+leaderboardRouter.post("/", leaderboardController.recordTime);
+
 module.exports = leaderboardRouter;

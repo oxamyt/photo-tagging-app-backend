@@ -25,7 +25,7 @@ exactTestCases.forEach(({ character, x, y }) => {
     const response = await request(app).post("/game").send({ character, x, y });
 
     expect(response.status).toBe(200);
-    expect(response.body).toMatchObject({ message: "Correct!", success: true });
+    expect(response.body).toMatchObject({ success: true });
   });
 });
 
@@ -34,6 +34,6 @@ approximateTestCases.forEach(({ character, x, y }) => {
     const response = await request(app).post("/game").send({ character, x, y });
 
     expect(response.status).toBe(200);
-    expect(response.body).toMatchObject({ message: "Correct!", success: true });
+    expect(response.body).toMatchObject({ success: true });
   });
 });

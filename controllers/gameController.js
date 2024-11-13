@@ -18,13 +18,11 @@ async function verifyCoordinates(req, res) {
 
     if (withinXBounds && withinYBounds) {
       return res.json({
-        message: "Correct!",
         success: true,
         correctCoordinates: { x: Character.x, y: Character.y },
       });
     } else {
       return res.json({
-        message: "Incorrect!",
         success: false,
       });
     }
@@ -47,6 +45,7 @@ async function fetchGameData(req, res) {
     });
   } catch (err) {
     console.error(err);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }
 

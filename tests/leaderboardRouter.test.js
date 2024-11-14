@@ -37,3 +37,23 @@ test("fetch leaderboard", async () => {
   const response = await request(app).get("/leaderboard");
   expect(response.status).toBe(200);
 });
+
+test("record user time to leaderBoard", async () => {
+  const startResponse = await request(app).post("/timer/start");
+  const cookies = startResponse.headers["set-cookie"];
+
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+
+  const endTimerResponse = await request(app)
+    .post("/timer/end")
+    .set("Cookie", cookies)
+    .send({ clientEndTime: 3 });
+
+  const pushTimeToLeaderBoard = await request(app)
+    .post("/leaderboard")
+    .set("Cookie", cookies)
+    .send({ username: "Gog" });
+  expect(pushTimeToLeaderBoard.status).toBe(200);
+  expect(pushTimeToLeaderBoard.body.totalTime).toBeLessThan(4);
+  expect(pushTimeToLeaderBoard.body.name).toEqual("Gog");
+});

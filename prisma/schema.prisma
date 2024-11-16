@@ -26,6 +26,7 @@ model Character {
   x            Int    
   y            Int   
   imageId      Int  
+  characterImageUrl String
   image       Image     @relation("CharactersOfImage", fields: [imageId], references: [id])
 }
 

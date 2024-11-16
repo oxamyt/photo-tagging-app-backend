@@ -95,6 +95,8 @@ async function fetchCharacters(params) {
     const characters = await prisma.character.findMany({
       select: {
         name: true,
+        characterImageUrl: true,
+        id: true,
       },
     });
     return characters;

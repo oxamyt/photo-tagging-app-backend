@@ -17,21 +17,21 @@ async function endTimer(req, res) {
       return res.status(400).json({ message: "Timer has not been started" });
     }
 
-    const { clientEndTime } = req.body;
+    const { clientTotalTime } = req.body;
 
     const endTime = Date.now();
 
     const elapsedServerTime = endTime - req.session.startTime;
 
-    const timeDifference = Math.abs(elapsedServerTime - clientEndTime);
+    const timeDifference = Math.abs(elapsedServerTime - clientTotalTime);
 
     let elapsedTime;
 
-    if (timeDifference > 500) {
-      elapsedTime = elapsedServerTime / 1000;
+    if (timeDifference > 2000) {
+      elapsedTime = elapsedServerTime;
       req.session.totalTime = elapsedTime;
     } else {
-      elapsedTime = clientEndTime / 1000;
+      elapsedTime = clientTotalTime;
       req.session.totalTime = elapsedTime;
     }
 

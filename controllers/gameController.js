@@ -2,7 +2,7 @@ const prismaQueries = require("../prisma/prismaQueries");
 
 async function verifyCoordinates(req, res) {
   const { character, x, y } = req.body;
-
+  console.log(x, y);
   const radius = 50;
 
   try {
@@ -36,8 +36,9 @@ async function verifyCoordinates(req, res) {
 
 async function fetchGameData(req, res) {
   try {
-    const image = await prismaQueries.fetchImage();
-    const characters = await prismaQueries.fetchCharacters();
+    const { pictureName } = req.body;
+    const image = await prismaQueries.fetchImage(pictureName);
+    const characters = await prismaQueries.fetchCharacters(image.id);
 
     res.status(200).json({
       image: image.url,

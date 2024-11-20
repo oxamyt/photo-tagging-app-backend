@@ -81,18 +81,25 @@ async function fetchLeaderboard() {
   }
 }
 
-async function fetchImage() {
+async function fetchImage(pictureName) {
   try {
-    const image = await prisma.image.findFirst();
+    const image = await prisma.image.findFirst({
+      where: {
+        name: pictureName,
+      },
+    });
     return image;
   } catch (err) {
     console.error(err);
   }
 }
 
-async function fetchCharacters(params) {
+async function fetchCharacters(id) {
   try {
     const characters = await prisma.character.findMany({
+      where: {
+        imageId: id,
+      },
       select: {
         name: true,
         characterImageUrl: true,

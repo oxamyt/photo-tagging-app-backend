@@ -5,6 +5,6 @@ const gameRouter = Router();
 
 gameRouter.post("/game", gameController.verifyCoordinates);
 
-gameRouter.get("/game-data", gameController.fetchGameData);
+gameRouter.post("/game-data", gameController.fetchGameData);
 
 module.exports = gameRouter;

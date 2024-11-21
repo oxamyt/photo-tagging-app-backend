@@ -38,7 +38,11 @@ test("end timer", async () => {
   const startResponse = await request(app).post("/start");
   const cookies = startResponse.headers["set-cookie"];
 
-  const response = await request(app).post("/end").set("Cookie", cookies);
+  const clientTotalTime = 5000;
+  const response = await request(app)
+    .post("/end")
+    .set("Cookie", cookies)
+    .send({ clientTotalTime });
   expect(response.status).toBe(200);
   expect(response.body).toHaveProperty("elapsedTime");
 });

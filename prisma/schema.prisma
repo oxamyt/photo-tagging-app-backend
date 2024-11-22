@@ -18,6 +18,8 @@ model Leaderboard {
   user  String 
   time  Float    
   createdAt   DateTime  @default(now())
+  imageId    Int
+  image      Image    @relation(fields: [imageId], references: [id])
 }
 
 model Character {
@@ -36,6 +38,7 @@ model Image {
   name         String  @unique 
   url          String   
   characters   Character[]  @relation("CharactersOfImage")
+  leaderboard Leaderboard[]
 }
 
 model Session {

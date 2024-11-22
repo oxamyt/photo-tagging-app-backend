@@ -41,7 +41,7 @@ async function fetchGameData(req, res) {
     const characters = await prismaQueries.fetchCharacters(image.id);
 
     res.status(200).json({
-      image: image.url,
+      image,
       characters: characters,
     });
   } catch (err) {

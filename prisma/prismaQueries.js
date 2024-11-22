@@ -53,12 +53,13 @@ async function pushElapsedTime(sessionId, elapsedTime) {
   }
 }
 
-async function pushUserToLeaderBoard(name, totalTime) {
+async function pushUserToLeaderBoard(name, totalTime, imageId) {
   try {
     const User = await prisma.leaderboard.create({
       data: {
         user: name,
         time: totalTime,
+        imageId,
       },
     });
 
@@ -68,14 +69,22 @@ async function pushUserToLeaderBoard(name, totalTime) {
   }
 }
 
-async function fetchLeaderboard() {
+async function fetchLeaderboard(imageId) {
   try {
-    const Leaderboard = await prisma.leaderboard.findMany({
-      orderBy: {
-        time: "asc",
-      },
+    const leaderboard = await prisma.leaderboard.findMany({
+      where: { imageId },
+      orderBy: { time: "asc" },
     });
-    return Leaderboard;
+    return leaderboard;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function fetchImages() {
+  try {
+    const Images = await prisma.image.findMany();
+    return Images;
   } catch (err) {
     console.error(err);
   }
@@ -120,5 +129,6 @@ module.exports = {
   pushUserToLeaderBoard,
   fetchLeaderboard,
   fetchImage,
+  fetchImages,
   fetchCharacters,
 };

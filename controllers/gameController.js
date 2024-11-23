@@ -2,7 +2,6 @@ const prismaQueries = require("../prisma/prismaQueries");
 
 async function verifyCoordinates(req, res) {
   const { character, x, y } = req.body;
-  console.log(x, y);
   const radius = 50;
 
   try {

@@ -11,6 +11,8 @@ const MemoryStore = require("memorystore")(session);
 
 const port = 3000;
 
+app.enable("trust proxy");
+
 app.use(cookieParser());
 app.use(
   cors({

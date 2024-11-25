@@ -40,10 +40,3 @@ model Image {
   characters   Character[]  @relation("CharactersOfImage")
   leaderboard Leaderboard[]
 }
-
-model Session {
-  id        String   @id
-  sid       String   @unique
-  data      String
-  expiresAt   DateTime
-}

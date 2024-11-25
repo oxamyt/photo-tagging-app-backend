@@ -5,10 +5,9 @@ const gameRouter = require("./routes/gameRouter");
 const timerRouter = require("./routes/timerRouter");
 const leaderboardRouter = require("./routes/leaderboardRouter");
 const cookieParser = require("cookie-parser");
-const expressSession = require("express-session");
-const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
-const { PrismaClient } = require("@prisma/client");
 require("dotenv").config();
+const session = require("express-session");
+const MemoryStore = require("memorystore")(session);
 
 const port = 3000;
 
@@ -20,21 +19,19 @@ app.use(
   })
 );
 
+const isProduction = process.env.NODE_ENV === "production";
 app.use(
-  expressSession({
+  session({
     cookie: {
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      secure: true,
-      sameSite: "None",
+      maxAge: 86400000, // 24 hours
+      secure: isProduction, // Secure cookies in production only
+      sameSite: isProduction ? "None" : "Lax", // SameSite=None for cross-site cookies, Lax for local dev
     },
-    secret: process.env.SECRET,
-    resave: false,
-    saveUninitialized: true,
-    store: new PrismaSessionStore(new PrismaClient(), {
-      checkPeriod: 2 * 60 * 1000, //ms
-      dbRecordIdIsSessionId: true,
-      dbRecordIdFunction: undefined,
+    store: new MemoryStore({
+      checkPeriod: 86400000, // prune expired entries every 24h
     }),
+    resave: false,
+    secret: process.env.SECRET,
   })
 );
 

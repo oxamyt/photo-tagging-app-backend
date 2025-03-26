@@ -63,7 +63,7 @@ To run **SpotQuest Backend** locally, follow these steps:
 
    ```
 
-3. Create your own ENV variables for db,frontend url and secret.
+3. Create your own ENV variables for database,frontend url, secret and then run.
    ```bash
    node app.js
    ```
